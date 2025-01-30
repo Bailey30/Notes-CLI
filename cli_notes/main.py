@@ -1,5 +1,5 @@
 import os
-from .operations import (
+from cli_notes.operations import (
     create_note,
     filter_notes,
     get_note_by_id,
@@ -8,14 +8,21 @@ from .operations import (
     update_note,
     delete_note,
 )
-from .args import getArgs
+from .args import get_args
 from .notes_repo import NotesRepository
 
 
 def main():
-    args = getArgs()
+    args = get_args()
 
-    FILE_PATH = os.path.join(os.path.dirname(__file__), "../notes.json")
+    # This file path gets set during tests to use a seperate testing json file.
+    env_path = os.environ.get("NOTES_FILE_PATH")
+
+    FILE_PATH = (
+        env_path
+        if env_path
+        else os.path.join(os.path.dirname(__file__), "../notes.json")
+    )
 
     repo = NotesRepository(file_path=FILE_PATH)
 

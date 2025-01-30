@@ -1,6 +1,6 @@
 import json
 from typing import List
-from .operations import Note
+from cli_notes.utils.utils import Note
 from dataclasses import asdict
 
 

@@ -10,9 +10,22 @@ class Args:
     input: str
 
 
-def getArgs() -> Args:
-    """Gets and returns the command line arguements when the programme runs."""
+def get_args() -> Args:
+    """
+    Gets and returns the command line arguements when the programme runs.
+    """
+
     parser = argparse.ArgumentParser()
+
+    valid_operations = [
+        "create",
+        "read",
+        "update",
+        "delete",
+        "list",
+        "mark-in-progress",
+        "mark-done",
+    ]
 
     parser.add_argument(
         "operation",
@@ -39,5 +52,8 @@ def getArgs() -> Args:
 
     if args.input == "" and args.operation == "create":
         args.input = args.query
+
+    if args.operation not in valid_operations:
+        parser.error("Invalid operation.")
 
     return Args(operation=args.operation, query=args.query, input=args.input)

@@ -1,11 +1,10 @@
-import json
-from dataclasses import asdict, replace
+from dataclasses import replace
 from typing import List, Literal
 
 from .args import Args
 
-from ..utils.utils import find, Note
-from .notes_repo import NotesRepository
+from cli_notes.utils.utils import find, Note
+from cli_notes.notes_repo import NotesRepository
 
 
 def create_note(args: Args, repo: NotesRepository) -> Note:
@@ -47,8 +46,7 @@ def update_note(
     selected_note = get_note_by_id(repo.notes, args.query)
 
     if selected_note is None:
-        print(f"Note with ID: {args.query} not found.")
-        return
+        raise ValueError(f"Note with ID {args.query} not found.")
 
     updated_notes = [
         replace(note, **{key: newValue}) if note.id == args.query else note
@@ -67,6 +65,11 @@ def update_note(
 def delete_note(repo: NotesRepository, args: Args) -> None:
     """Deletes not with given id and rewrites the json file."""
 
+    selected_note = get_note_by_id(repo.notes, args.query)
+
+    if selected_note is None:
+        raise ValueError(f"Note with ID {args.query} not found.")
+
     notes_after_deletion = [
         note for note in repo.notes if note.id != args.query
     ]
@@ -74,14 +77,6 @@ def delete_note(repo: NotesRepository, args: Args) -> None:
     repo.write_to_file(notes_after_deletion)
 
     print(f"Note {args.query} deleted.")
-
-
-def write_to_file(file_path: str, notes: List[Note]) -> None:
-    """Writes notes to a json file."""
-
-    with open(file_path, "w") as file:
-        # Convert each Note dataclass into a dict so json.dump works
-        json.dump([asdict(note) for note in notes], file, indent=2)
 
 
 def filter_notes(repo: NotesRepository, filter: str = "") -> List[Note]:
