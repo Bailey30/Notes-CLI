@@ -13,6 +13,6 @@ class Note:
 
 
 def find(condition: Callable[[T], bool], list: List[T]) -> Optional[T]:
-    """Returns the find item in a list if it matches the condition, otherwise returns None"""
+    """Returns the found item in a list if it matches the condition, otherwise returns None"""
 
     return next((item for item in list if condition(item)), None)

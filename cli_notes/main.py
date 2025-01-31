@@ -27,9 +27,9 @@ def main():
     repo = NotesRepository(file_path=FILE_PATH)
 
     match args.operation:
-        case "create":
+        case "new":
             print_note(create_note(args, repo))
-        case "read":
+        case "id":
             print_note(get_note_by_id(repo.notes, args.query))
         case "update":
             print_note(update_note(repo, args, args.input, "contents"))

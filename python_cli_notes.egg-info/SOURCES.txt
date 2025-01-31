@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+cli_notes/__init__.py
+cli_notes/args.py
+cli_notes/main.py
+cli_notes/notes_repo.py
+cli_notes/operations.py
+cli_notes/utils/__init__.py
+cli_notes/utils/utils.py
+python_cli_notes.egg-info/PKG-INFO
+python_cli_notes.egg-info/SOURCES.txt
+python_cli_notes.egg-info/dependency_links.txt
+python_cli_notes.egg-info/entry_points.txt
+python_cli_notes.egg-info/top_level.txt
+tests/test_module.py

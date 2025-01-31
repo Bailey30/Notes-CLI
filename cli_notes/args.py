@@ -18,8 +18,8 @@ def get_args() -> Args:
     parser = argparse.ArgumentParser()
 
     valid_operations = [
-        "create",
-        "read",
+        "new",
+        "id",
         "update",
         "delete",
         "list",
@@ -31,7 +31,7 @@ def get_args() -> Args:
         "operation",
         default="list",
         nargs="?",
-        help="The action to perform. Either create, read, update, delete, list, mark-in-progress or mark-done.",
+        help="The action to perform. Either new, id, update, delete, list, mark-in-progress or mark-done.",
     )
 
     parser.add_argument(
@@ -50,7 +50,7 @@ def get_args() -> Args:
 
     args = parser.parse_args()
 
-    if args.input == "" and args.operation == "create":
+    if args.input == "" and args.operation == "new":
         args.input = args.query
 
     if args.operation not in valid_operations:

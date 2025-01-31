@@ -12,8 +12,12 @@ def create_note(args: Args, repo: NotesRepository) -> Note:
 
     existing_notes = repo.notes
 
+    new_id = str(int(existing_notes[-1].id) + 1)
+
     new_note = Note(
-        id=str(len(existing_notes)), status="todo", contents=args.input
+        id=new_id,
+        status="todo",
+        contents=args.input,
     )
 
     existing_notes.append(new_note)
@@ -38,7 +42,7 @@ def get_note_by_id(notes: List[Note], id: str) -> Note | None:
 def update_note(
     repo: NotesRepository,
     args: Args,
-    newValue: str,
+    new_value: str,
     key: Literal["contents", "status"] = "contents",
 ) -> Note | None:
     """Updates a note with the given id. Can updated either the status or the contents."""
@@ -48,16 +52,15 @@ def update_note(
     if selected_note is None:
         raise ValueError(f"Note with ID {args.query} not found.")
 
+    updated_note = replace(selected_note, **{key: new_value})
+
     updated_notes = [
-        replace(note, **{key: newValue}) if note.id == args.query else note
-        for note in repo.notes
+        updated_note if note.id == args.query else note for note in repo.notes
     ]
 
     repo.write_to_file(updated_notes)
 
     print("Note updated:")
-
-    updated_note = find(lambda x: x.id == args.query, updated_notes)
 
     return updated_note
 
